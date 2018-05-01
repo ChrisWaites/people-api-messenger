@@ -3,6 +3,8 @@ from flask import Flask, request
 from pymessenger.bot import Bot
 import os 
 
+import people
+
 app = Flask(__name__)
 ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
@@ -25,13 +27,16 @@ def receive_message():
                 if message.get('message'):
                     #Facebook Messenger ID for user so we know where to send response back to
                     recipient_id = message['sender']['id']
-                    if message['message'].get('text'):
-                        response_sent_text = get_message()
-                        send_message(recipient_id, response_sent_text)
-                    #if user sends us a GIF, photo,video, or any other non-text item
-                    if message['message'].get('attachments'):
-                        response_sent_nontext = get_message()
-                        send_message(recipient_id, response_sent_nontext)
+                    text = message['message'].get('text')
+                    if text == 'get':
+                        query = people.Query.get()
+                        message = 'id:{}\n\ntext:{}'.format(query['id'], query['text'])
+                        send_message(recipient_id, message)
+                    elif text[:9] == 'username:':
+                        people.username = text[9:]
+                    elif text[:9] == 'password:':
+                        people.password = text[9:]
+
     return "Message Processed"
 
 
@@ -41,13 +46,7 @@ def verify_fb_token(token_sent):
     return 'Invalid verification token'
 
 
-def get_message():
-    sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
-    return random.choice(sample_responses)
-
-#uses PyMessenger to send response to user
 def send_message(recipient_id, response):
-    #sends user the text message provided via input response parameter
     bot.send_text_message(recipient_id, response)
     return "success"
 
