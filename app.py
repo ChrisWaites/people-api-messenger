@@ -14,7 +14,6 @@ count = 0
 
 @app.route("/", methods=['GET', 'POST'])
 def receive_message():
-    global count
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
         that confirms all requests that your bot receives came from Facebook.""" 
@@ -43,7 +42,7 @@ def receive_message():
                     elif count == 4:
                         send_message(recipient_id, 'Sure! On its way.')
                         send_message(recipient_id, 'Going forward, would you expect this graph to go up or down? https://tinyurl.com/y6ushjxv')
-                    elif count == 3:
+                    elif count == 5:
                         send_message(recipient_id, "Thanks! You've been credited $0.02.")
 
                     count += 1
