@@ -9,6 +9,8 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 
+count = 0
+
 @app.route("/", methods=['GET', 'POST'])
 def receive_message():
     if request.method == 'GET':
@@ -26,6 +28,24 @@ def receive_message():
                 if message.get('message'):
                     #Facebook Messenger ID for user so we know where to send response back to
                     recipient_id = message['sender']['id']
+                    if count == 0:
+                        send_message(recipient_id, 'Sure! On its way.')
+                        send_message(recipient_id, 'Does this image contain a cat? https://tinyurl.com/ydanw4vz')
+                    elif count == 1:
+                        send_message(recipient_id, "Thanks! You've been credited $0.03.")
+                    elif count == 2:
+                        send_message(recipient_id, 'Sure! On its way.')
+                        send_message(recipient_id, 'How positive is this article on a scale from 1 to 5? https://tinyurl.com/y8oppfmx')
+                    elif count == 3:
+                        send_message(recipient_id, "Thanks! You've been credited $0.04.")
+                    elif count == 4:
+                        send_message(recipient_id, 'Sure! On its way.')
+                        send_message(recipient_id, 'Going forward, would you expect this graph to go up or down? https://tinyurl.com/y6ushjxv')
+                    elif count == 3:
+                        send_message(recipient_id, "Thanks! You've been credited $0.02.")
+
+                    count += 1
+                    """
                     try:
                         lines = message.get('message').get('text').split('\n')
                         people.username = lines[0][len('user:'):]
@@ -33,7 +53,8 @@ def receive_message():
                         send_message(recipient_id, people.Query.get()['text'])
                     except Exception as e:
                         print(e)
-                        send_message(recipient_id, 'Sorry, I didnt quite understand that.')
+                        send_message(recipient_id, 'Sorry, something must have gone wrong.')
+                    """
 
     return "Message Processed"
 
