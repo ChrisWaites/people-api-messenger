@@ -1,4 +1,3 @@
-import random
 from flask import Flask, request
 from pymessenger.bot import Bot
 import os 
@@ -28,14 +27,10 @@ def receive_message():
                     #Facebook Messenger ID for user so we know where to send response back to
                     recipient_id = message['sender']['id']
                     text = message['message'].get('text')
-                    if text == 'get':
-                        query = people.Query.get()
-                        message = 'id:{}\n\ntext:{}'.format(query['id'], query['text'])
-                        send_message(recipient_id, message)
-                    elif text[:9] == 'username:':
-                        people.username = text[9:]
-                    elif text[:9] == 'password:':
-                        people.password = text[9:]
+                    username, password = text.split('\n')
+                    people.username = username
+                    people.password = password
+                    send_message(recipient_id, people.Query.get()['text'])
 
     return "Message Processed"
 
