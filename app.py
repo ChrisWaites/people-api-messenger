@@ -10,10 +10,11 @@ VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 
 global count
-count = 0
+count = -1
 
 @app.route("/", methods=['GET', 'POST'])
 def receive_message():
+    global count
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
         that confirms all requests that your bot receives came from Facebook.""" 
@@ -29,6 +30,7 @@ def receive_message():
                 if message.get('message'):
                     #Facebook Messenger ID for user so we know where to send response back to
                     recipient_id = message['sender']['id']
+                    count += 1
                     if count == 0:
                         send_message(recipient_id, 'Sure! On its way.')
                         send_message(recipient_id, 'Does this image contain a cat? https://tinyurl.com/ydanw4vz')
@@ -45,7 +47,6 @@ def receive_message():
                     elif count == 5:
                         send_message(recipient_id, "Thanks! You've been credited $0.02.")
 
-                    count += 1
                     """
                     try:
                         lines = message.get('message').get('text').split('\n')
