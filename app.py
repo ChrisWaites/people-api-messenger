@@ -26,10 +26,9 @@ def receive_message():
                 if message.get('message'):
                     #Facebook Messenger ID for user so we know where to send response back to
                     recipient_id = message['sender']['id']
-                    text = message['message'].get('text')
-                    username, password = text.split('\n')
-                    people.username = username
-                    people.password = password
+                    tokens = message['message'].get('text').split(',')
+                    people.username = tokens[0]
+                    people.password = tokens[1]
                     send_message(recipient_id, people.Query.get()['text'])
 
     return "Message Processed"
