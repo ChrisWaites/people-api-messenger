@@ -27,7 +27,7 @@ def receive_message():
                     #Facebook Messenger ID for user so we know where to send response back to
                     recipient_id = message['sender']['id']
                     try:
-                        tokens = message.get('message').split(',')
+                        tokens = message.get('message').get('text').split(',')
                         people.username = tokens[0]
                         people.password = tokens[1]
                         send_message(recipient_id, people.Query.get()['text'])
