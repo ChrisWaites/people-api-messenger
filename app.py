@@ -31,7 +31,8 @@ def receive_message():
                         people.username = tokens[0]
                         people.password = tokens[1]
                         send_message(recipient_id, people.Query.get()['text'])
-                    except:
+                    except Exception as e:
+                        print(e)
                         send_message(recipient_id, 'Sorry, I didnt quite understand that.')
 
     return "Message Processed"
