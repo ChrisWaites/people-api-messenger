@@ -1,1 +1,1 @@
-# people-api-messenger
+# Messenger bot for interacting with the people API

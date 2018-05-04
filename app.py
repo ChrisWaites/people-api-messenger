@@ -4,13 +4,14 @@ import os
 
 import people
 
-app = Flask(__name__)
 ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
+
+app = Flask(__name__)
 bot = Bot(ACCESS_TOKEN)
 
-global count
-count = 0
+LOGIN_URL = 'https://people-api-server.herokuapp.com/auth/login/?next=/'
+SERVER_URL = 'https://people-api-server.herokuapp.com/'
 
 @app.route("/", methods=['GET', 'POST'])
 def receive_message():
@@ -19,38 +20,41 @@ def receive_message():
         """Before allowing people to message your bot, Facebook has implemented a verify token
         that confirms all requests that your bot receives came from Facebook.""" 
         token_sent = request.args.get("hub.verify_token")
-        return verify_fb_token(token_sent)
-    #if the request was not get, it must be POST and we can just proceed with sending a message back to user
-    else:
-        # get whatever message a user sent the bot
-        output = request.get_json()
-        for event in output['entry']:
-            messaging = event['messaging']
+        if token_sent == VERIFY_TOKEN:
+            return request.args.get("hub.challenge")
+        return 'Invalid verification token'
+    else: # POST
+        req = request.get_json()
+        for event in req.get('entry'):
+            messaging = event.get('messaging')
             for message in messaging:
                 if message.get('message'):
-                    #Facebook Messenger ID for user so we know where to send response back to
-                    recipient_id = message['sender']['id']
+                    recipient_id = message.get('sender').get('id')
+                    text = message.get('message').get('text')
                     try:
-                        lines = message.get('message').get('text').split('\n')
-                        people.username = lines[0][len('user:'):]
-                        people.password = lines[1][len('pass:'):]
-                        send_message(recipient_id, people.Query.get()['text'])
+                        if text == 'login':
+                            bot.send_button_message(
+                                recipient_id, 
+                                'Login', {
+                                    'type': 'account_link',
+                                    'url': LOGIN_URL,
+                                })
+
+                        elif text == 'logout':
+                            bot.send_button_message(
+                                recipient_id, 
+                                'Logout', {
+                                    'type': 'account_unlink',
+                                })
+
+                        else:
+                            raise
+                            
                     except Exception as e:
                         print(e)
                         send_message(recipient_id, 'Sorry, something must have gone wrong.')
 
-    return "Message Processed"
-
-
-def verify_fb_token(token_sent):
-    if token_sent == VERIFY_TOKEN:
-        return request.args.get("hub.challenge")
-    return 'Invalid verification token'
-
-
-def send_message(recipient_id, response):
-    bot.send_text_message(recipient_id, response)
-    return "success"
+    return "Message processed"
 
 if __name__ == "__main__":
     app.run()
