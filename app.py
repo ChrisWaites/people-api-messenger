@@ -34,20 +34,35 @@ def receive_message():
                     text = message.get('message').get('text')
 
                     try:
+                        if text == 'help':
+                            bot.send_text_message(recipient_id, 'Commands:\n\nregister\nlogin\nlogout')
+                        elif text == 'register':
                             bot.send_button_message(
-                                recipient_id, 'Welcome to People API!', [
-                                    {
+                                recipient_id, 'Click here to register.',
+                                    [{
                                         'type': 'web_url',
                                         'url': REGISTER_URL,
                                         'title': 'Register',
-                                    }, {
+                                    }]
+                                )
+                        elif text == 'login':
+                            bot.send_button_message(
+                                recipient_id, 'Click here to login.',
+                                    [{
                                         'type': 'account_link',
                                         'url': LOGIN_URL,
-                                    }, {
-                                        'type': 'account_unlink'
-                                    }
-                                ]
-                            )
+                                    }]
+                                )
+                        elif text == 'logout':
+                            bot.send_button_message(
+                                recipient_id, 'Click here to logout.',
+                                    [{
+                                            'type': 'account_unlink'
+                                    }]
+                                )
+                        else:
+                            bot.send_text_message(recipient_id, 'Sample Query? [1-5]')
+
                     except Exception as e:
                         print(e)
                         bot.send_text_message(recipient_id, 'Sorry, something must have gone wrong.')
