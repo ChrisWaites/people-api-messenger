@@ -11,7 +11,7 @@ app = Flask(__name__)
 bot = Bot(ACCESS_TOKEN)
 
 LOGIN_URL = 'https://people-api-server.herokuapp.com/social-login/'
-REGISTER_URL = 'https://people-api-server.herokuapp.com/register'
+REGISTER_URL = 'https://people-api-server.herokuapp.com/register/'
 SERVER_URL = 'https://people-api-server.herokuapp.com/'
 
 @app.route("/", methods=['GET', 'POST'])
