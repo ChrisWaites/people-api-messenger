@@ -11,6 +11,7 @@ app = Flask(__name__)
 bot = Bot(ACCESS_TOKEN)
 
 LOGIN_URL = 'https://people-api-server.herokuapp.com/auth/login/?next=/'
+REGISTER_URL = 'https://people-api-server.herokuapp.com/register'
 SERVER_URL = 'https://people-api-server.herokuapp.com/'
 
 @app.route("/", methods=['GET', 'POST'])
@@ -33,18 +34,21 @@ def receive_message():
                     text = message.get('message').get('text')
 
                     try:
-                        if text == 'login':
                             bot.send_button_message(
-                                recipient_id, 
-                                'Login', [{'type': 'account_link', 'url': LOGIN_URL}])
-
-                        elif text == 'logout':
-                            bot.send_button_message(
-                                recipient_id, 
-                                'Logout', [{'type': 'account_unlink'}])
-
-                        else:
-                            raise Exception()
+                                recipient_id, 'Welcome to People API!', [
+                                    {
+                                        'type': 'web_url',
+                                        'url': REGISTER_URL,
+                                        'title': 'register',
+                                    },
+                                    ,{
+                                        'type': 'account_link',
+                                        'url': LOGIN_URL,
+                                    }, {
+                                        'type': 'account_unlink'
+                                    }
+                                ]
+                            )
                     except Exception as e:
                         print(e)
                         bot.send_text_message(recipient_id, 'Sorry, something must have gone wrong.')
