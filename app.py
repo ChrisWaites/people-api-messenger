@@ -26,13 +26,13 @@ def receive_message():
         return 'Invalid verification token'
     else: # POST
         req = request.get_json()
+        print(req)
         for event in req.get('entry'):
             messaging = event.get('messaging')
             for message in messaging:
                 if message.get('message'):
                     recipient_id = message.get('sender').get('id')
                     text = message.get('message').get('text')
-
                     try:
                         if text == 'help':
                             bot.send_text_message(recipient_id, 'Commands:\n\nregister\nlogin\nlogout')
