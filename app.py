@@ -31,6 +31,7 @@ def receive_message():
                 if message.get('message'):
                     recipient_id = message.get('sender').get('id')
                     text = message.get('message').get('text')
+
                     try:
                         if text == 'login':
                             bot.send_button_message(
@@ -48,11 +49,10 @@ def receive_message():
                                 })
 
                         else:
-                            raise
-                            
+                            raise Exception()
                     except Exception as e:
                         print(e)
-                        send_message(recipient_id, 'Sorry, something must have gone wrong.')
+                        bot.send_text_message(recipient_id, 'Sorry, something must have gone wrong.')
 
     return "Message processed"
 
