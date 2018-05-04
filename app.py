@@ -34,19 +34,19 @@ def receive_message():
 
                     try:
                         if text == 'login':
-                            bot.send_button_message(
+                            return bot.send_button_message(
                                 recipient_id, 
                                 'Login', {
                                     'type': 'account_link',
                                     'url': LOGIN_URL,
-                                })
+                            })
 
                         elif text == 'logout':
-                            bot.send_button_message(
+                            return bot.send_button_message(
                                 recipient_id, 
                                 'Logout', {
                                     'type': 'account_unlink',
-                                })
+                            })
 
                         else:
                             raise Exception()
