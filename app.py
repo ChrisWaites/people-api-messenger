@@ -39,7 +39,7 @@ def receive_message():
                                     {
                                         'type': 'web_url',
                                         'url': REGISTER_URL,
-                                        'title': 'register',
+                                        'title': 'Register',
                                     }, {
                                         'type': 'account_link',
                                         'url': LOGIN_URL,
