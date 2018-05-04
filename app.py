@@ -10,7 +10,7 @@ VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 app = Flask(__name__)
 bot = Bot(ACCESS_TOKEN)
 
-LOGIN_URL = 'https://people-api-server.herokuapp.com/auth/login/?next=/'
+LOGIN_URL = 'https://people-api-server.herokuapp.com/social-login/'
 REGISTER_URL = 'https://people-api-server.herokuapp.com/register'
 SERVER_URL = 'https://people-api-server.herokuapp.com/'
 
