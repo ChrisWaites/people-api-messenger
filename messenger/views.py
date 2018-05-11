@@ -15,58 +15,59 @@ REGISTER_URL = 'https://people-api-server.herokuapp.com/register/'
 
 @csrf_exempt
 def index(request):
-    if request.method == 'GET':
-        token_sent = request.args.get("hub.verify_token")
-        if token_sent == settings.VERIFY_TOKEN:
-            return request.args.get("hub.challenge")
-        return HttpResponse('Invalid verification token.')
+    try:
 
-    else: 
-        req = request.get_json()
-        print(req)
+        if request.method == 'GET':
+            token_sent = request.args.get("hub.verify_token")
+            if token_sent == settings.VERIFY_TOKEN:
+                return request.args.get("hub.challenge")
+            return HttpResponse('Invalid verification token.')
 
-        for event in req.get('entry'):
-            messaging = event.get('messaging')
-            for message in messaging:
-                if message.get('message'):
+        else: 
+            print(request.__dict__)
+            req = request.get_json()
 
-                    recipient_id = message.get('sender').get('id')
-                    text = message.get('message').get('text')
+            for event in req.get('entry'):
+                messaging = event.get('messaging')
+                for message in messaging:
+                    if message.get('message'):
 
-                    try:
-                        if text == 'help':
-                            bot.send_text_message(recipient_id, 'Commands:\n\nregister\nlogin\nlogout')
-                            
-                        elif text == 'register':
-                            bot.send_button_message(
-                                recipient_id, 'Click here to register.', [{
-                                        'type': 'web_url',
-                                        'url': REGISTER_URL,
-                                        'title': 'Register',
-                                    }]
-                                )
+                        recipient_id = message.get('sender').get('id')
+                        text = message.get('message').get('text')
 
-                        elif text == 'login':
-                            bot.send_button_message(
-                                recipient_id, 'Click here to login.', [{
-                                        'type': 'account_link',
-                                        'url': LOGIN_URL,
-                                    }]
-                                )
+                            if text == 'help':
+                                bot.send_text_message(recipient_id, 'Commands:\n\nregister\nlogin\nlogout')
+                                
+                            elif text == 'register':
+                                bot.send_button_message(
+                                    recipient_id, 'Click here to register.', [{
+                                            'type': 'web_url',
+                                            'url': REGISTER_URL,
+                                            'title': 'Register',
+                                        }]
+                                    )
 
-                        elif text == 'logout':
-                            bot.send_button_message(
-                                recipient_id, 'Click here to logout.', [{
-                                        'type': 'account_unlink'
-                                    }]
-                                )
+                            elif text == 'login':
+                                bot.send_button_message(
+                                    recipient_id, 'Click here to login.', [{
+                                            'type': 'account_link',
+                                            'url': LOGIN_URL,
+                                        }]
+                                    )
 
-                        else:
-                            bot.send_text_message(recipient_id, 'Sample Query? [1-5]')
+                            elif text == 'logout':
+                                bot.send_button_message(
+                                    recipient_id, 'Click here to logout.', [{
+                                            'type': 'account_unlink'
+                                        }]
+                                    )
 
-                    except Exception as e:
-                        print(e)
-                        bot.send_text_message(recipient_id, 'Sorry, something must have gone wrong.')
+                            else:
+                                bot.send_text_message(recipient_id, 'Sample Query? [1-5]')
+
+        except Exception as e:
+            print(e)
+            bot.send_text_message(recipient_id, 'Sorry, something must have gone wrong.')
 
         return HttpResponse('Message processed.')
 
