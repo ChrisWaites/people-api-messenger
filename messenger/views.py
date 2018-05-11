@@ -25,11 +25,7 @@ def index(request):
             return HttpResponse('Invalid verification token.')
 
         else: 
-            print(request.__dict__)
-            print(request.body)
-            print(request.body.__dict__)
-
-            req = json.loads(request.body.decode('utf8'))
+            req = json.loads(request.body)
 
             for event in request.get('entry'):
                 messaging = event.get('messaging')
