@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 import people
 from pymessenger.bot import Bot
@@ -12,6 +13,7 @@ LOGIN_URL = 'https://people-api-server.herokuapp.com/social-login/'
 REGISTER_URL = 'https://people-api-server.herokuapp.com/register/'
 
 
+@csrf_index
 def index(request):
     if request.method == 'GET':
         token_sent = request.args.get("hub.verify_token")
