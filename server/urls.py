@@ -20,5 +20,5 @@ from messenger import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/', include('messenger.urls'))
+    path('/', views.HandlerView.as_view())
 ]
