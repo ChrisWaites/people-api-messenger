@@ -10,7 +10,7 @@ bot = Bot(settings.ACCESS_TOKEN)
 
 LOGIN_URL = 'https://people-api-server.herokuapp.com/social-login/'
 REGISTER_URL = 'https://people-api-server.herokuapp.com/register/'
-SERVER_URL = 'https://people-api-server.herokuapp.com/'
+
 
 def index(request):
     if request.method == 'GET':
