@@ -4,6 +4,7 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
 import people
+import json
 from pymessenger.bot import Bot
 
 
@@ -27,6 +28,8 @@ def index(request):
             print(request.__dict__)
             print(request.body)
             print(request.body.__dict__)
+
+            req = json.loads(request.body.decode('utf8'))
 
             for event in request.get('entry'):
                 messaging = event.get('messaging')
@@ -68,7 +71,6 @@ def index(request):
 
     except Exception as e:
         print(e)
-        bot.send_text_message(recipient_id, 'Sorry, something must have gone wrong.')
 
     return HttpResponse('Message processed.')
 
