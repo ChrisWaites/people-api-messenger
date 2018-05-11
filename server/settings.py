@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'k_j3wx@7sa_$g4mib^l&r0a+)lckq-ku22sc8-znxi9kg9ig*)'
+SECRET_KEY = 'rv9$^js6m1d9g_05@1d-td9im^+l30i*m#=42$*4y&gicvk0gz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'messenger.apps.MessengerConfig',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +118,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
 
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', '')
 VERIFY_TOKEN = os.environ.get('VERIFY_TOKEN', '')
