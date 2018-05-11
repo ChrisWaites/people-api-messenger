@@ -65,9 +65,9 @@ def index(request):
                         else:
                             bot.send_text_message(recipient_id, 'Sample Query? [1-5]')
 
-        except Exception as e:
-            print(e)
-            bot.send_text_message(recipient_id, 'Sorry, something must have gone wrong.')
+    except Exception as e:
+        print(e)
+        bot.send_text_message(recipient_id, 'Sorry, something must have gone wrong.')
 
-        return HttpResponse('Message processed.')
+    return HttpResponse('Message processed.')
 
