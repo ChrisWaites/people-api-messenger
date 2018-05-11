@@ -18,7 +18,6 @@ REGISTER_URL = 'https://people-api-server.herokuapp.com/register/'
 def index(request):
     try:
         print(request.__dict__)
-        print(request.auth)
 
         if request.method == 'GET':
             token_sent = request.args.get("hub.verify_token")
