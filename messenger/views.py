@@ -13,7 +13,7 @@ LOGIN_URL = 'https://people-api-server.herokuapp.com/social-login/'
 REGISTER_URL = 'https://people-api-server.herokuapp.com/register/'
 
 
-@csrf_index
+@csrf_exempt
 def index(request):
     if request.method == 'GET':
         token_sent = request.args.get("hub.verify_token")
