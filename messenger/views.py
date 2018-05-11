@@ -27,7 +27,7 @@ def index(request):
         else: 
             req = json.loads(request.body)
 
-            for event in request.get('entry'):
+            for event in req.get('entry'):
                 messaging = event.get('messaging')
                 for message in messaging:
                     if message.get('message'):
