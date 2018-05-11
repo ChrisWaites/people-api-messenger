@@ -123,3 +123,6 @@ STATIC_URL = '/static/'
 
 ACCESS_TOKEN = os.environ.get('ACCESS_TOKEN', '')
 VERIFY_TOKEN = os.environ.get('VERIFY_TOKEN', '')
+
+import django_heroku
+django_heroku.settings(locals())
