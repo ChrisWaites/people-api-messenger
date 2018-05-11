@@ -25,9 +25,10 @@ def index(request):
 
         else: 
             print(request.__dict__)
-            req = request.get_json()
+            print(request.body)
+            print(request.body.__dict__)
 
-            for event in req.get('entry'):
+            for event in request.get('entry'):
                 messaging = event.get('messaging')
                 for message in messaging:
                     if message.get('message'):
