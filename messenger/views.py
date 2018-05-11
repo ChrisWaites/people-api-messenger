@@ -28,6 +28,7 @@ def index(request):
 
         else: 
             req = json.loads(request.body)
+            print(req)
 
             for event in req.get('entry'):
                 messaging = event.get('messaging')
