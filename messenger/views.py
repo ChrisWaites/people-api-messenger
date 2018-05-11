@@ -17,8 +17,6 @@ REGISTER_URL = 'https://people-api-server.herokuapp.com/register/'
 @csrf_exempt
 def index(request):
     try:
-        print(request.__dict__)
-
         if request.method == 'GET':
             token_sent = request.args.get("hub.verify_token")
             if token_sent == settings.VERIFY_TOKEN:
